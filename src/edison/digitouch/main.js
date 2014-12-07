@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 /* ----------------------------------------------------
@@ -5,6 +6,31 @@
    ----------------------------------------------------
 */
 var mraa = require("mraa"); // Must have this, provides interface to GPIO pins
+=======
+/*jslint node:true, vars:true, bitwise:true, unparam:true */
+/*jshint unused:true */
+/*global */
+
+/*
+A simple node.js application intended to read data from Digital pins on the Intel based development boards such as the Intel(R) Galileo and Edison with Arduino breakout board.
+
+MRAA - Low Level Skeleton Library for Communication on GNU/Linux platforms
+Library in C/C++ to interface with Galileo & other Intel platforms, in a structured and sane API with port nanmes/numbering that match boards & with bindings to javascript & python.
+
+Steps for installing MRAA & UPM Library on Intel IoT Platform with IoTDevKit Linux* image
+Using a ssh client: 
+1. echo "src maa-upm http://iotdk.intel.com/repos/1.1/intelgalactic" > /etc/opkg/intel-iotdk.conf
+2. opkg update
+3. opkg upgrade
+
+Article: https://software.intel.com/en-us/html5/articles/intel-xdk-iot-edition-nodejs-templates
+*/
+
+var mraa = require('mraa'); //require mraa
+
+//var req = require('request');
+console.log('MRAA Version: ' + mraa.getVersion()); //write the mraa version to the console
+>>>>>>> origin/master
 
 // ----------------------------
 //         Global Vars
@@ -28,10 +54,17 @@ var mraa = require("mraa"); // Must have this, provides interface to GPIO pins
     var right_touch_sensor_value = 0;
     var left_turn_sensor_value = 0;
     var right_turn_sensor_value = 0;
+    
+    var prev_left_touch_sensor_value = 0;
+    var prev_right_touch_sensor_value = 0;
+    var prev_left_turn_sensor_value = 0;
+    var prev_right_turn_sensor_value = 0;
+    
     var left_turn_led_value = 0;
     var right_turn_led_value = 0;
     var solenoid_value = 0;
 
+<<<<<<< HEAD
     var old_left_touch_sensor_value = 0;
     var old_right_touch_sensor_value = 0;
     var old_left_turn_sensor_value = 0;
@@ -40,16 +73,50 @@ var mraa = require("mraa"); // Must have this, provides interface to GPIO pins
     var old_left_turn_led_value = 0;
     var old_right_turn_led_value = 0;
     var old_solenoid_value = 0;
+=======
+    var prev_left_turn_led_value = 0;
+    var prev_right_turn_led_value = 0;
+    var prev_solenoid_value = 0;
+>>>>>>> origin/master
 
     // ----- Call function defined below forever after delay ---------------
     setInterval(function () {
 
+        // Store previous sensor values
+       prev_left_touch_sensor_value = left_touch_sensor_value;
+       prev_right_touch_sensor_value = right_touch_sensor_value;
+       prev_left_turn_sensor_value = left_turn_sensor_value;
+       prev_right_turn_sensor_value = right_turn_sensor_value;
+    
         // Read sensor data
         left_touch_sensor_value = left_touch_sensor_pin.read();
         right_touch_sensor_value = right_touch_sensor_pin.read();
         left_turn_sensor_value = left_turn_sensor_pin.read();
         right_turn_sensor_value = right_turn_sensor_pin.read();
 
+        // Save previous solenoid and LED values
+        prev_left_turn_led_value = left_turn_led_value;
+        prev_right_turn_led_value = right_turn_led_value;
+        prev_solenoid_value = solenoid_value;
+
+        
+        // ---- If any of the sensor values changed then log in the cloud ----
+        if(prev_left_touch_sensor_value != left_touch_sensor_value)
+        {
+            save_to_cloud('left_touch_sensor', left_touch_sensor_value);
+        }
+        if(prev_right_touch_sensor_value != right_touch_sensor_value)
+        {
+            save_to_cloud('right_touch_sensor', right_touch_sensor_value);
+        }
+        if(prev_left_turn_sensor_value != left_turn_sensor_value)
+        {
+            save_to_cloud('left_turn_sensor', left_turn_sensor_value);
+        }
+        if(prev_right_turn_sensor_value != right_turn_sensor_value)
+        {
+            save_to_cloud('right_turn_sensor', right_turn_sensor_value);
+        }
         
         // ----------- Process touch sensors ------------------
         if(left_touch_sensor_value || right_touch_sensor_value)
@@ -63,9 +130,15 @@ var mraa = require("mraa"); // Must have this, provides interface to GPIO pins
             solenoid_value = 0;
         }
         solenoid_pin.write(solenoid_value);
+<<<<<<< HEAD
         if(old_solenoid_value!=solenoid_value){
             old_solenoid_value=solenoid_value;
             SaveToCloud('break',solenoid_value);
+=======
+        if(prev_solenoid_value != solenoid_value)
+        {
+            save_to_cloud('brake',solenoid_value);
+>>>>>>> origin/master
         }
         
         
@@ -79,14 +152,14 @@ var mraa = require("mraa"); // Must have this, provides interface to GPIO pins
         else if(left_turn_sensor_value && !right_turn_sensor_value)
         {
             // Left turn signal
-            left_turn_led_value = ~left_turn_sensor_value;
+            left_turn_led_value = ~left_turn_led_value;
             right_turn_led_value = 0;
         }
         else if(!left_turn_sensor_value && right_turn_sensor_value)
         {
             // Right turn signal
             left_turn_led_value = 0;
-            right_turn_led_value = ~right_turn_sensor_value;
+            right_turn_led_value = ~right_turn_led_value;
         }
         else
         {
@@ -105,6 +178,15 @@ var mraa = require("mraa"); // Must have this, provides interface to GPIO pins
             SaveToCloud('right',left_turn_led_value);
         }
         
+        
+        if(prev_left_turn_led_value != left_turn_led_value)
+        {
+            save_to_cloud('left',left_turn_led_value);
+        }
+        if(prev_right_turn_led_value != right_turn_led_value)
+        {
+            save_to_cloud('right',right_turn_led_value);
+        }
         
     }, 500);
 
@@ -128,6 +210,7 @@ function setupIO()
     right_turn_led_pin.write(0);
 }
 
+<<<<<<< HEAD
 function SaveToCloud(itemType, newValue){
         var req = require('request');
         req.post('https://smartstroller.azure-mobile.net/tables/todoitem/',
@@ -143,3 +226,28 @@ function SaveToCloud(itemType, newValue){
 
 
 
+=======
+// ---------------------------------------------------------------
+//                      Post data to cloud
+// ---------------------------------------------------------------
+function save_to_cloud(itemtype_arg, text_arg)
+{
+    var req = require('request');
+    
+    console.log('Data: ' + text_arg); //write the read value out to the console
+   
+   req.post('https://smartstroller.azure-mobile.net/tables/todoitem/',
+      { json: { itemtype : itemtype_arg, text:text_arg } },
+      function (error, response, body) {
+          console.log(body)
+          if (!error && response.statusCode == 200) {
+              console.log(body)
+          }
+      }
+      
+   );
+   
+   console.log('posted!'); //write the read value out to the console
+}
+
+>>>>>>> origin/master

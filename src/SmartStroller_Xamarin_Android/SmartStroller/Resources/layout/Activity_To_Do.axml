@@ -28,26 +28,14 @@
         android:layout_height="wrap_content"
         android:background="#71BCFA"
         android:padding="6dip">
-        <EditText
-            android:id="@+id/textNewToDoType"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/add_textbox_hinttype">
-            <requestFocus />
-        </EditText>
-        <EditText
-            android:id="@+id/textNewToDo"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/add_textbox_hint">
-            <requestFocus />
-        </EditText>
         <Button
-            android:id="@+id/buttonAddToDo"
+            android:id="@+id/buttonLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="AddItem"
+            android:text="@string/add_button_text" />
+        <Button
+            android:id="@+id/buttonRight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="AddItem"

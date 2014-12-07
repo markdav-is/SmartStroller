@@ -66,9 +66,6 @@ namespace SmartStroller
 				// Get the Mobile Service Table instance to use
 				toDoTable = client.GetTable <ToDoItem> ();
 
-				textNewToDo = FindViewById<EditText> (Resource.Id.textNewToDo);
-        textNewToDoType = FindViewById<EditText>(Resource.Id.textNewToDoType);
-
 				// Create an adapter to bind the items with the view
 				adapter = new ToDoItemAdapter (this, Resource.Layout.Row_List_To_Do);
 				var listViewToDo = FindViewById<ListView> (Resource.Id.listViewToDo);
@@ -112,7 +109,7 @@ namespace SmartStroller
 			try {
 				// Get the items that weren't marked as completed and add them in the
 				// adapter
-				var list = await toDoTable.Where (item => item.Complete == false).ToListAsync ();
+				var list = await toDoTable.OrderByDescending(i=>i.Created).Take(100).ToListAsync();
 
 				adapter.Clear ();
 
@@ -134,7 +131,6 @@ namespace SmartStroller
 			item.Complete = true;
 			try {
 				await toDoTable.UpdateAsync (item);
-				if (item.Complete)
 					adapter.Remove (item);
 
 			} catch (Exception e) {
@@ -160,9 +156,9 @@ namespace SmartStroller
 				// Insert the new item
 				await toDoTable.InsertAsync (item);
 
-				if (!item.Complete) {
+				
 					adapter.Add (item);
-				}
+	
 			} catch (Exception e) {
 				CreateAndShowDialog (e, "Error");
 			}

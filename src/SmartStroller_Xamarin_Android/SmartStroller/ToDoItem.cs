@@ -1,4 +1,5 @@
 using System;
+using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 
 namespace SmartStroller
@@ -15,6 +16,9 @@ namespace SmartStroller
 
 		[JsonProperty(PropertyName = "complete")]
 		public bool Complete { get; set; }
+
+    [CreatedAt]
+    public DateTime Created { get; set; }
 	}
 
 	public class ToDoItemWrapper : Java.Lang.Object

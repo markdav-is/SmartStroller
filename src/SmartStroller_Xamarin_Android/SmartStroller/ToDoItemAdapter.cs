@@ -1,4 +1,5 @@
 using System;
+using System.Reflection.Emit;
 using Android.App;
 using Android.Views;
 using Android.Widget;
@@ -24,6 +25,7 @@ namespace SmartStroller
 			var row = convertView;
 			var currentItem = this [position];
 			CheckBox checkBox;
+		  TextView label;
 
 			if (row == null) {
 				var inflater = activity.LayoutInflater;
@@ -46,6 +48,9 @@ namespace SmartStroller
 			checkBox.Checked = false;
 			checkBox.Enabled = true;
 			checkBox.Tag = new ToDoItemWrapper (currentItem);
+
+      label = row.FindViewById<TextView>(Resource.Id.itemLabel);
+      label.Text = string.Format("{0} : {1} : {2}",currentItem.Created ,currentItem.ItemType, currentItem.Text);
 
 			return row;
 		}

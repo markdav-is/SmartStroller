@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Android.Graphics;
 using Android.OS;
 using Android.App;
 using Android.Views;
@@ -107,9 +109,38 @@ namespace SmartStroller
 		async Task RefreshItemsFromTableAsync ()
 		{
 			try {
+
+        var ButtonBreak = FindViewById<Button>(Resource.Id.buttonBrake);
+        var ButtonLeft = FindViewById<Button>(Resource.Id.buttonLeft);
+        var ButtonRight = FindViewById<Button>(Resource.Id.buttonRight);
 				// Get the items that weren't marked as completed and add them in the
 				// adapter
-				var list = await toDoTable.OrderByDescending(i=>i.Created).Take(100).ToListAsync();
+				var list = await toDoTable.OrderByDescending(i=>i.Created).Take(50).ToListAsync();
+
+        var breakItem = list.FirstOrDefault(i => i.ItemType == "brake");
+        var leftItem = list.FirstOrDefault(i => i.ItemType == "left");
+        var rightItem = list.FirstOrDefault(i => i.ItemType == "right");
+        
+        if (breakItem != null && breakItem.Text.Contains('0')) {
+          ButtonBreak.SetBackgroundColor(Color.Red);	
+        }
+        else {
+          ButtonBreak.SetBackgroundColor(Color.White);
+        }
+
+        if (leftItem != null && leftItem.Text.Contains('1')) {
+          ButtonLeft.SetBackgroundColor(Color.GreenYellow);
+        }
+        else {
+          ButtonLeft.SetBackgroundColor(Color.White);
+        }
+
+        if (rightItem != null && rightItem.Text.Contains('1')) {
+          ButtonRight.SetBackgroundColor(Color.GreenYellow);
+        }
+        else {
+          ButtonRight.SetBackgroundColor(Color.White);
+        }
 
 				adapter.Clear ();
 
@@ -166,6 +197,13 @@ namespace SmartStroller
 			textNewToDo.Text = "";
       textNewToDoType.Text = "";
 		}
+
+    [Java.Interop.Export()]
+    public async void Refresh(View view)
+    {
+
+      await RefreshItemsFromTableAsync();
+    }
 
 		void CreateAndShowDialog (Exception exception, String title)
 		{

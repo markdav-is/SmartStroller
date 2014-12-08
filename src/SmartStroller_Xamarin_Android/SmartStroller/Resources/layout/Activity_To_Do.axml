@@ -30,16 +30,31 @@
         android:padding="6dip">
         <Button
             android:id="@+id/buttonLeft"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="AddItem"
-            android:text="@string/add_button_text" />
+            android:onClick="Refresh"
+            android:text="@string/left_button_text"
+            android:layout_weight=".5" />
         <Button
             android:id="@+id/buttonRight"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="AddItem"
-            android:text="@string/add_button_text" />
+            android:onClick="Refresh"
+            android:text="@string/right_button_text"
+            android:layout_weight=".5" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#71BCFA"
+        android:padding="6dip">
+        <Button
+            android:id="@+id/buttonBrake"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="Refresh"
+            android:text="@string/brake_button_text"
+            android:layout_weight="1" />
     </LinearLayout>
     <ListView
         android:id="@+id/listViewToDo"

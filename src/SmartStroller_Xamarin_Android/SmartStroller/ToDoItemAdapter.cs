@@ -24,34 +24,27 @@ namespace SmartStroller
 		{
 			var row = convertView;
 			var currentItem = this [position];
-			CheckBox checkBox;
+			
 		  TextView label;
 
-			if (row == null) {
-				var inflater = activity.LayoutInflater;
-				row = inflater.Inflate (layoutResourceId, parent, false);
+		  if (row == null)
+		  {
+		    var inflater = activity.LayoutInflater;
+		    row = inflater.Inflate(layoutResourceId, parent, false);
 
-				checkBox = row.FindViewById <CheckBox> (Resource.Id.checkToDoItem);
+        
+		  }
+		  else
+		  {
+		    
+        label = row.FindViewById<TextView>(Resource.Id.itemLabel);
+        label.Text = string.Format("{0} : {1} : {2}", currentItem.Created, currentItem.ItemType, currentItem.Text);
 
-				checkBox.CheckedChange += async (sender, e) => {
-					var cbSender = sender as CheckBox;
-					if (cbSender != null && cbSender.Tag is ToDoItemWrapper && cbSender.Checked) {
-						cbSender.Enabled = false;
-						if (activity is ToDoActivity)
-							await ((ToDoActivity)activity).CheckItem ((cbSender.Tag as ToDoItemWrapper).ToDoItem);
-					}
-				};
-			} else
-				checkBox = row.FindViewById <CheckBox> (Resource.Id.checkToDoItem);
+		  }
 
-			checkBox.Text = string.Format("{0} : {1}",currentItem.ItemType,currentItem.Text);
-			checkBox.Checked = false;
-			checkBox.Enabled = true;
-			checkBox.Tag = new ToDoItemWrapper (currentItem);
+      
 
-      label = row.FindViewById<TextView>(Resource.Id.itemLabel);
-      label.Text = string.Format("{0} : {1} : {2}",currentItem.Created ,currentItem.ItemType, currentItem.Text);
-
+     
 			return row;
 		}
 

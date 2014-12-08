@@ -63,20 +63,20 @@ namespace SmartStroller
 			// aapt resource value: 0x7f070000
 			public const int LinearLayout1 = 2131165184;
 			
+			// aapt resource value: 0x7f070005
+			public const int buttonBrake = 2131165189;
+			
 			// aapt resource value: 0x7f070003
 			public const int buttonLeft = 2131165187;
 			
 			// aapt resource value: 0x7f070004
 			public const int buttonRight = 2131165188;
 			
-			// aapt resource value: 0x7f070006
-			public const int checkToDoItem = 2131165190;
-			
 			// aapt resource value: 0x7f070007
 			public const int itemLabel = 2131165191;
 			
-			// aapt resource value: 0x7f070005
-			public const int listViewToDo = 2131165189;
+			// aapt resource value: 0x7f070006
+			public const int listViewToDo = 2131165190;
 			
 			// aapt resource value: 0x7f070002
 			public const int loadingProgressBar = 2131165186;
@@ -148,13 +148,22 @@ namespace SmartStroller
 			public const int app_name = 2130968576;
 			
 			// aapt resource value: 0x7f040006
-			public const int checkbox_text = 2130968582;
+			public const int brake_button_text = 2130968582;
 			
-			// aapt resource value: 0x7f040005
-			public const int menu_refresh = 2130968581;
+			// aapt resource value: 0x7f040009
+			public const int checkbox_text = 2130968585;
 			
 			// aapt resource value: 0x7f040004
-			public const int mobile_services = 2130968580;
+			public const int left_button_text = 2130968580;
+			
+			// aapt resource value: 0x7f040008
+			public const int menu_refresh = 2130968584;
+			
+			// aapt resource value: 0x7f040007
+			public const int mobile_services = 2130968583;
+			
+			// aapt resource value: 0x7f040005
+			public const int right_button_text = 2130968581;
 			
 			static String()
 			{
